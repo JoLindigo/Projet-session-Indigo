@@ -17,20 +17,20 @@ Suite à l'ouverture de Vivado, il faudra choisir le bon répertoire avec le `.x
 ```
 C:\travail\Projet-session-Indigo\s4InfoAtelier4
 ```
-![[tuto1-ouverture-vivado.png]]
+![tuto1-ouverture-vivado](img/tuto1-ouverture-vivado.png)
 Une fois l'application Viviado d'ouverte, tout de suite ouvrir Vitis à partir du menu dans le coin à gauche :
 ```
 Tools >> Lauch Vitis IDE
 ```
 
-![[tuto1-vivado-lauch-vitis.png]]
+![tuto1-vivado-lauch-vitis](img/tuto1-vivado-lauch-vitis.png)
 
 Une fois lancé une fenêtre vas apparaître pour choisir le répertoire de travail, assurez-vous de bien prendre le même que celui vivado soit :
 
 ```
 C:\travail\Projet-session-Indigo\s4InfoAtelier4
 ```
-![[tuto1-vitis-workplace-path.png]]
+![tuto1-vitis-workplace-path](img/tuto1-vitis-workplace-path.png)
 
 Une fois le bon répertoire sélectionné, cliquez sur lauch et attendez que le programme se télécharge.
 
@@ -55,16 +55,16 @@ Sur l'application Vitis, il faudra construire le projet en allant dans le menu s
 Project >> Build All
 ```
 
-![[tuto1-vitis-build-project.png]]
+![[tuto1-vitis-build-project](img/tuto1-vitis-build-project.png)
 
 Une fois appuyé le projet débutera le build, il faudra attendre la fin du build :
 
-![[tuto1-build-finished.png]]
+![tuto1-build-finished](img/tuto1-build-finished.png)
 
 Il ne restera plus qu'à lancer le projet en cliquant sur la flèche verte et en lançant le débugger par défaut : 
 
-![[tuto1-run-debugger.png]]
+![tuto1-run-debugger](img/tuto1-run-debugger.png)
 
 Le FPGA est senser se programmer et l'écran devrait afficher l'image suivante :
 
-![[tuto1-final-result.png]]
+![tuto1-final-result](img/tuto1-final-result.png)
