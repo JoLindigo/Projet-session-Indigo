@@ -33,3 +33,9 @@ __pycache__/
 # Obsidian   
 #------------------ 
 doc/.obsidian/*  
+
+
+#------------------
+# New files after running Vivado   
+#------------------ 
+s4InfoAtelier4/.metadata/.plugins/org.eclipse.core.resources/*
