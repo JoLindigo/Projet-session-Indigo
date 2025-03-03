@@ -8,6 +8,9 @@ Thumbs.db
 *.log
 *.tmp
 
+# Ignore compressed files
+*.zip
+
 # Ignore dependency directories
 node_modules/
 venv/
