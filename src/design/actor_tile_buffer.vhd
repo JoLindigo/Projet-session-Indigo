@@ -51,7 +51,7 @@ begin
                                     to_integer(unsigned(i_tile_x)), 
                                     to_integer(unsigned(i_tile_y))); 
                             
-            if i_ch_en = '1' then
+            if i_ch_en = '1' and i_ch_tile_id /= "000000" then
             s_tiles(to_integer(unsigned(i_ch_tile_id)), 
                     to_integer(unsigned(i_ch_tile_x)), 
                     to_integer(unsigned(i_ch_tile_y))) <= i_ch_tile_pixel_color;
