@@ -34,7 +34,6 @@ entity bg_tile_buffer is
            i_ch_en : in STD_LOGIC;
            i_reset : in STD_LOGIC;
            i_clk: in STD_LOGIC;
-           --i_bg_tile_en : in STD_LOGIC;
            o_color_code : out STD_LOGIC_VECTOR (4 downto 0));
 end bg_tile_buffer;
 
