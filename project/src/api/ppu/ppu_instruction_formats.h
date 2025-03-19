@@ -71,10 +71,10 @@ typedef union {
 typedef union {
   struct {
     uint32_t opCode             : 4;
-    uint32_t tileIndex          : 6;
-    uint32_t tilePixelPosX      : 4;
-    uint32_t tilePixelPosY      : 4;
-    uint32_t tilePixelColorCode : 5;
+    uint32_t tileID             : 6;
+    uint32_t pixelColIndex      : 4;
+    uint32_t pixelRowIndex      : 4;
+    uint32_t pixelColorCode     : 5;
     uint32_t PADDING            : 9;
   } fields;
 

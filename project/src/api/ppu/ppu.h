@@ -4,6 +4,13 @@
 #include "../../common.h"
 #include "ppu_instruction_formats.h"
 
+#define OPCODE_SETACTORTILECOLOR      0b0000U
+#define OPCODE_SETBACKGROUNDTILECOLOR 0b0001U
+#define OPCODE_SETACTORTILEID         0b0010U
+#define OPCODE_SETBACKGROUNDTILEID    0b0011U
+#define OPCODE_MOVEACTORPOSITION      0b0100U
+#define OPCODE_SETACTORPOSITION       0b0101U
+#define OPCODE_SETVIEWPORTOFFSET      0b0110U
 
 /**
   * \brief Initialize the components to their default state on the PPU.
