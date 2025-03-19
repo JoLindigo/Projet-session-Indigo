@@ -38,7 +38,7 @@ typedef union {
   */
 typedef union {
   struct {
-		uint32_t opCode             : 4;
+	uint32_t opCode             : 4;
     uint32_t tileIndex          : 6;
     uint32_t tilePixelPosX      : 3;
     uint32_t tilePixelPosY      : 3;
@@ -93,8 +93,6 @@ typedef union {
     uint32_t actorID : 3;
     uint32_t PADDING : 5;
   } fields;
-
-	uint32_t instruction;
 } SetActorPositionInstruction;
 
 
@@ -109,8 +107,6 @@ typedef union {
     uint32_t actorID : 3;
     uint32_t PADDING : 5;
   } fields;
-
-	uint32_t instruction;
 } MoveActorPositionInstruction;
 
 
