@@ -4,7 +4,6 @@
 #include "../../common.h"
 #include "xil_io.h"
 #include "ppu_instruction_formats.h"
-#include "xil_assert.h"
 
 #define OPCODE_SETACTORTILECOLOR      0b0000U
 #define OPCODE_SETBACKGROUNDTILECOLOR 0b0001U
@@ -13,7 +12,6 @@
 #define OPCODE_MOVEACTORPOSITION      0b0100U
 #define OPCODE_SETACTORPOSITION       0b0101U
 #define OPCODE_SETVIEWPORTOFFSET      0b0110U
-
 
 #define XPAR_MYCUCKREGISTER_0_S00_AXI_BASEADDR 0x43C40000
 #define MYCUCKREGISTER_mWriteReg(BaseAddress, RegOffset, Data) \
