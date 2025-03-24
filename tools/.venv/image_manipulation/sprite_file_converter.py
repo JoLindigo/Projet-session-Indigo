@@ -15,11 +15,7 @@ def convert_sprite_to_ppu_instructions(file_name: str):
   file_exists = os.path.exists(os.path.join(CURRENT_DIR, file_name))
   if not file_exists:
     raise FileNotFoundError("Provided file does not exist on the system.")
-  
-  # img = Image.open(os.path.join(CURRENT_DIR, file_name))
-  # img = img.convert('RGBA')
-  # img_array = np.array(img)
-  
+    
   reader = png.Reader(filename=os.path.join(CURRENT_DIR, file_name))
   _, _, pixels, metadata = reader.read_flat()
   pixel_byte_width = 4 if metadata['alpha'] else 3
@@ -36,14 +32,6 @@ def convert_sprite_to_ppu_instructions(file_name: str):
     current_column = 0
 
     for i in range(0, 128):
-      # if i != 0:
-      #   tile_id_inst_file.write(',')
-
-      # if i % 128 == 0:
-      #   current_row += 1
-      #   current_column = 0
-      # else:
-      #   current_column += 1
 
       for j in range(0, 128):
         if j != 0:
@@ -55,8 +43,6 @@ def convert_sprite_to_ppu_instructions(file_name: str):
         tile_id_instruction_builder += "0001"
         tile_id_instruction_builder += f"{i:07b}"
         tile_id_instruction_builder += f"{j:07b}"
-        # tile_id_instruction_builder += f"{current_column:07b}"
-        # tile_id_instruction_builder += f"{current_row:07b}"
         tile_id_instruction_builder += "0000000000"
 
         tile_id_inst_file.write(tile_id_instruction_builder)
