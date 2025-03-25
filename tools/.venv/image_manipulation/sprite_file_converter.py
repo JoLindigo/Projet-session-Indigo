@@ -17,70 +17,61 @@ def convert_sprite_to_ppu_instructions(file_name: str):
     raise FileNotFoundError("Provided file does not exist on the system.")
     
   reader = png.Reader(filename=os.path.join(CURRENT_DIR, file_name))
-  _, _, pixels, metadata = reader.read_flat()
+  width, height, pixels, metadata = reader.read_flat()
   pixel_byte_width = 4 if metadata['alpha'] else 3
+  pixels_ndarray = np.array(list(pixels), dtype=np.uint8).reshape((height, width, pixel_byte_width))
 
   with open(os.path.join(CURRENT_DIR, f"{file_name.split('.png')[0]}_tile_id_instructions.txt"), 'w') as tile_id_inst_file, \
        open(os.path.join(CURRENT_DIR, f"{file_name.split('.png')[0]}_tile_color_instructions.txt"), 'w') as tile_color_inst_file:
-    tile_id_inst_file.write("int tile_id_instructions[] {")
-    tile_color_inst_file.write("int tile_color_instructions[] {")
+    tile_id_inst_file.write("int tile_id_instructions[] = {")
+    tile_color_inst_file.write("int tile_color_instructions[] = {")
     
     tile_id_instruction_builder = ""
-    tile_color_instruction_builder = ""
-
-    current_row = 0
-    current_column = 0
 
     for i in range(0, 128):
-
       for j in range(0, 128):
-        if j != 0:
+        if j != 0 or i > 0:
           tile_id_inst_file.write(',')
 
         tile_id_inst_file.write("\n")
 
-        tile_id_instruction_builder += "    0100"
-        tile_id_instruction_builder += "0001"
-        tile_id_instruction_builder += f"{i:07b}"
+        tile_id_instruction_builder += "    0b0100"
+        tile_id_instruction_builder += "000001"
         tile_id_instruction_builder += f"{j:07b}"
-        tile_id_instruction_builder += "0000000000"
+        tile_id_instruction_builder += f"{i:07b}"
+        tile_id_instruction_builder += "00000000"
 
         tile_id_inst_file.write(tile_id_instruction_builder)
         tile_id_instruction_builder = ""
-
-    current_row = 0
-    current_column = 0
-
-    for i in range(0, len(pixels), pixel_byte_width):
-      if i != 0:
-        tile_color_inst_file.write(',')
         
-      if i % 8 == 0:
-        current_row += 1
-        current_column = 0
-      else:
-        current_column += 1
+    tile_color_instruction_builder = ""        
 
-      tile_color_inst_file.write("\n")
-      pixel = pixels[i:i+pixel_byte_width]
-      pixel_data_str = "0x"
+    for row in range(height):
+      for col in range(width):
+        if col != 0 or row > 0:
+          tile_color_inst_file.write(',')
+          
+        tile_color_inst_file.write("\n")
+        
+        if metadata['alpha']:
+          r, g, b, _ = pixels_ndarray[row][col]
+          pixel_data_str = hex(r) + hex(g)[2:] + hex(b)[2:]
+        else:
+          r, g, b = pixels_ndarray[row][col]
+          pixel_data_str += hex(r) + hex(g)[2:] + hex(b)[2:]
+                
+        tile_color_instruction_builder += "    0b0010"
+        tile_color_instruction_builder += "000001"
+        tile_color_instruction_builder += f"{col:03b}"
+        tile_color_instruction_builder += f"{row:03b}"
+        tile_color_instruction_builder += hex_colors_to_ppu_color_codes[pixel_data_str]
+        tile_color_instruction_builder += "00000000000"        
+        
+        tile_color_inst_file.write(tile_color_instruction_builder)
+        tile_color_instruction_builder = ""
       
-      for p in pixel:
-        pixel_data_str += hex(p)[2:]
-        
-      tile_color_instruction_builder += "    0010"
-      tile_color_instruction_builder += "0001"
-      tile_color_instruction_builder += f"{current_row:03b}"
-      tile_color_instruction_builder += f"{current_column:03b}"
-      color_key_without_alpha = pixel_data_str[:-2]
-      tile_color_instruction_builder += hex_colors_to_ppu_color_codes[color_key_without_alpha]
-      tile_color_instruction_builder += "0000000000000"
-      tile_color_instruction_builder = tile_color_instruction_builder[:32]
-        
-      tile_color_inst_file.write(tile_color_instruction_builder)
-      tile_color_instruction_builder = ""
-    tile_id_inst_file.write("\n}")
-    tile_color_inst_file.write("\n}")
+    tile_id_inst_file.write("\n};")
+    tile_color_inst_file.write("\n};")
 
 
 def convert_sprite_to_pixel_array(file_name: str):
