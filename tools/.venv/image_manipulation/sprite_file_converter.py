@@ -7,8 +7,17 @@ from constants import CURRENT_DIR
 
 hex_colors_to_ppu_color_codes = {
   "0x000000": "00000",
-  "0x9b8787": "00001",
-  "0xac3232": "00010"
+  #"0x9b8787": "00001",
+  #"0xac3232": "00010",
+  # Red wall tile colors
+  "0x561212": "00101",
+  "0x8e1f1f": "00110",
+  "0xb42c2c": "00111",
+  # Ze rat
+  "0x353b43": "00001",
+  "0x464c55": "00010",
+  "0x7b5252": "00011",
+  "0xa66b6b": "00100"
 }
 
 def convert_sprite_to_ppu_instructions(file_name: str):
@@ -53,6 +62,8 @@ def convert_sprite_to_ppu_instructions(file_name: str):
           
         tile_color_inst_file.write("\n")
         
+        pixel_data_str = ""
+
         if metadata['alpha']:
           r, g, b, _ = pixels_ndarray[row][col]
           pixel_data_str = hex(r) + hex(g)[2:] + hex(b)[2:]
@@ -60,6 +71,9 @@ def convert_sprite_to_ppu_instructions(file_name: str):
           r, g, b = pixels_ndarray[row][col]
           pixel_data_str += hex(r) + hex(g)[2:] + hex(b)[2:]
                 
+        if pixel_data_str == "0x000":
+          pixel_data_str = "0x000000"
+
         tile_color_instruction_builder += "    0b0010"
         tile_color_instruction_builder += "00001"
         tile_color_instruction_builder += f"{col:03b}"
