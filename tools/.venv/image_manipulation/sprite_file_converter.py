@@ -23,12 +23,12 @@ def convert_sprite_to_ppu_instructions(file_name: str):
 
   with open(os.path.join(CURRENT_DIR, f"{file_name.split('.png')[0]}_tile_id_instructions.txt"), 'w') as tile_id_inst_file, \
        open(os.path.join(CURRENT_DIR, f"{file_name.split('.png')[0]}_tile_color_instructions.txt"), 'w') as tile_color_inst_file:
-    tile_id_inst_file.write("int tile_id_instructions[] = {")
-    tile_color_inst_file.write("int tile_color_instructions[] = {")
+    tile_id_inst_file.write("u32 tile_id_instructions[] = {")
+    tile_color_inst_file.write("u32 tile_color_instructions[] = {")
     
     tile_id_instruction_builder = ""
 
-    for i in range(0, 128):
+    for i in range(0, 64):
       for j in range(0, 128):
         if j != 0 or i > 0:
           tile_id_inst_file.write(',')
@@ -36,10 +36,10 @@ def convert_sprite_to_ppu_instructions(file_name: str):
         tile_id_inst_file.write("\n")
 
         tile_id_instruction_builder += "    0b0100"
-        tile_id_instruction_builder += "000001"
+        tile_id_instruction_builder += "00001"
         tile_id_instruction_builder += f"{j:07b}"
-        tile_id_instruction_builder += f"{i:07b}"
-        tile_id_instruction_builder += "00000000"
+        tile_id_instruction_builder += f"{i:06b}"
+        tile_id_instruction_builder += "0000000000"
 
         tile_id_inst_file.write(tile_id_instruction_builder)
         tile_id_instruction_builder = ""
@@ -61,11 +61,11 @@ def convert_sprite_to_ppu_instructions(file_name: str):
           pixel_data_str += hex(r) + hex(g)[2:] + hex(b)[2:]
                 
         tile_color_instruction_builder += "    0b0010"
-        tile_color_instruction_builder += "000001"
+        tile_color_instruction_builder += "00001"
         tile_color_instruction_builder += f"{col:03b}"
         tile_color_instruction_builder += f"{row:03b}"
         tile_color_instruction_builder += hex_colors_to_ppu_color_codes[pixel_data_str]
-        tile_color_instruction_builder += "00000000000"        
+        tile_color_instruction_builder += "000000000000"        
         
         tile_color_inst_file.write(tile_color_instruction_builder)
         tile_color_instruction_builder = ""
