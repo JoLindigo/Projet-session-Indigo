@@ -10,9 +10,9 @@ hex_colors_to_ppu_color_codes = {
   #"0x9b8787": "00001",
   #"0xac3232": "00010",
   # Red wall tile colors
-  "0x561212": "00101",
-  "0x8e1f1f": "00110",
-  "0xb42c2c": "00111",
+  "0x370c0c": "00101",
+  "0x530d0d": "00110",
+  "0x6c1f14": "00111",
   # Ze rat
   "0x353b43": "00001",
   "0x464c55": "00010",
@@ -66,16 +66,24 @@ def convert_sprite_to_ppu_instructions(file_name: str):
 
         if metadata['alpha']:
           r, g, b, _ = pixels_ndarray[row][col]
-          pixel_data_str = hex(r) + hex(g)[2:] + hex(b)[2:]
+          r_hex = hex(r) if len(hex(r)) == 4 else hex(r)[:2] + "0" + hex(r)[3:]
+          g_hex = hex(g)[2:] if len(hex(g)[2:]) == 2 else "0" + hex(g)[2:]
+          b_hex = hex(b)[2:] if len(hex(b)[2:]) == 2 else "0" + hex(b)[2:]
+          pixel_data_str = r_hex + g_hex + b_hex
+          # pixel_data_str = hex(r) + hex(g)[2:] + hex(b)[2:]
         else:
           r, g, b = pixels_ndarray[row][col]
-          pixel_data_str += hex(r) + hex(g)[2:] + hex(b)[2:]
+          r_hex = hex(r) if len(hex(r)) == 4 else hex(r)[:2] + "0" + hex(r)[3:]
+          g_hex = hex(g)[2:] if len(hex(g)[2:]) == 2 else "0" + hex(g)[2:]
+          b_hex = hex(b)[2:] if len(hex(b)[2:]) == 2 else "0" + hex(b)[2:]
+          pixel_data_str = r_hex + g_hex + b_hex
+          # pixel_data_str += hex(r) + hex(g)[2:] + hex(b)[2:]
                 
-        if pixel_data_str == "0x000":
+        if pixel_data_str == "0x00000":
           pixel_data_str = "0x000000"
 
         tile_color_instruction_builder += "    0b0010"
-        tile_color_instruction_builder += "00001"
+        tile_color_instruction_builder += "00010"
         tile_color_instruction_builder += f"{col:03b}"
         tile_color_instruction_builder += f"{row:03b}"
         tile_color_instruction_builder += hex_colors_to_ppu_color_codes[pixel_data_str]
